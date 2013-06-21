@@ -1,6 +1,5 @@
 # getTweet
-
-## A bit of jQuery for loading a users latest tweet without the Twitter API
+#### A bit of jQuery for loading a users latest tweet without the Twitter API
 
 ### Usage:
 To get the tweet run `getTweet.please(id, callback);`. Where `id` is the user ID number and `callback` is the function to execute after the tweet has been fetched. Once that's been run, the tweet will be publicly available as an object at `getTweet.tweet`. It will look like this:
