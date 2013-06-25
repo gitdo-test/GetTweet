@@ -11,10 +11,10 @@ var getTweet = function () {
 
   return {
     please: function(id, callback, howMany) {
-      var src = '//cdn.syndication.twimg.com/widgets/timelines/' + id + '?&lang=en&callback=getTweet.process&suppress_response_codes=true&rnd=' + Math.random(),
-          fakeAPI = '<script src="' + src + '"></script>';
+      var src = '//cdn.syndication.twimg.com/widgets/timelines/' + id + '?&lang=en&callback=getTweet.process&suppress_response_codes=true&rnd=',
+          fakeAPI = '<script src="' + src + Math.random() + '"></script>';
 
-      if ($('script[src="' + src + '"]').length === 0) {
+      if ($('script[src^="' + src + '"]').length === 0) {
         $('head').eq(0).append(fakeAPI);
       }
 
