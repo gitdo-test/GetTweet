@@ -11,14 +11,21 @@ var getTweet = function () {
 
   return {
     please: function(id, callback) {
-      var fakeAPI = '<script src="//cdn.syndication.twimg.com/widgets/timelines/' + id + '?&lang=en&callback=getTweet.process&suppress_response_codes=true&rnd=' + Math.random() + '"></script>'
-      $('head').eq(0).append(fakeAPI);
+      var src = '//cdn.syndication.twimg.com/widgets/timelines/' + id + '?&lang=en&callback=getTweet.process&suppress_response_codes=true&rnd=' + Math.random(),
+          fakeAPI = '<script src="' + src + '"></script>';
+
+      if (!$('script[src="' + src + '"]')) {
+        $('head').eq(0).append(fakeAPI);
+      }
+
       callbackFn = callback;
     },
     
     process: function(data) {
       var $fakeAPI = $('<div class="fake-api"></div>');
+
       $fakeAPI.append(data.body);
+
       var $latestTweet = $fakeAPI.children('.root').children('.stream').children('.h-feed').children('.h-entry[data-tweet-id]').eq(0),
           $tweetContent = $latestTweet.children('.e-entry-content').children('.e-entry-title'),
           $userInfo = $latestTweet.children('.h-card').children('.profile');
