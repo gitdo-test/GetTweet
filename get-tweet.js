@@ -14,7 +14,7 @@ var getTweet = function () {
       var src = '//cdn.syndication.twimg.com/widgets/timelines/' + id + '?&lang=en&callback=getTweet.process&suppress_response_codes=true&rnd=' + Math.random(),
           fakeAPI = '<script src="' + src + '"></script>';
 
-      if (!$('script[src="' + src + '"]')) {
+      if ($('script[src="' + src + '"]').length === 0) {
         $('head').eq(0).append(fakeAPI);
       }
 
