@@ -62,29 +62,20 @@ var getTweet = function () {
         tweets.push(thisTweet);
       }
 
-      if (tweets.length > 1) {
-        hereYouGo(tweets, name);
-      } else {
-        var tweet = tweets[0];
-        hereYouGo(tweet, name);
-      }
+      hereYouGo(tweets, name);
     }
   }
 
   function hereYouGo (out, name) {
-    if (Array.isArray(out)) {
-      getTweet[name].tweets = out,
-      getTweet[name].tweet  = out[0];
-    } else {
-      getTweet[name].tweet  = out;
-    }
+    getTweet[name].tweets = out,
+    getTweet[name].tweet  = out[0];
 
     if (name === 'gtDefault') {
       getTweet.tweet  = getTweet.gtDefault.tweet,
       getTweet.tweets = getTweet.gtDefault.tweets;
-      
+
       getTweet.gtDefault.callback();
-      
+
       getTweet.gtDefault = {},
       delete getTweet.gtDefault;
     } else {
