@@ -43,8 +43,6 @@ var getTweet = function () {
     process: function(data, name) {
       var $fakeAPI = $('<div class="fake-api"></div>').append(data.body),
           tweets = [];
-          
-      console.log(this);
 
       for (i = 0; i < getTweet[name].numTweets; i++) {
         var $thisTweet = $fakeAPI.children('.root').children('.stream').children('.h-feed').children('.h-entry[data-tweet-id]').eq(i),
