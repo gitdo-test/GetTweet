@@ -60,9 +60,10 @@ var getTweet = function () {
 
         thisTweet = {
           html: $tweetContent.html(),
+          isRT: new Boolean($thisTweet.children('.e-entry-content').children('.retweet-credit').length).valueOf(),
           link: $thisTweet.children('.permalink').attr('href'),
           name: $userInfo.children('.full-name').text().trim(),
-          pic: $userInfo.children('img').attr('src'),
+          pic:  $userInfo.children('img').attr('src'),
           text: $tweetContent.text(),
           time: Date.parse($thisTweet.children('.permalink').data('datetime')),
           user: $userInfo.children('.p-nickname').text()
