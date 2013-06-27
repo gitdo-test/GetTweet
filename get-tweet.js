@@ -10,7 +10,11 @@ var getTweet = function () {
   return {
     please: function(widget, howMany, name, callbackFn) {
 
-      if (arguments.length === 2) {
+      // Test arguments
+      if (arguments.length < 2) {
+        console.log('%cYou must pass a value for `widget` and `callbackFn`.', 'color: red;');
+        return;
+      } else if (arguments.length === 2) {
         callbackFn = howMany,
         howMany = 1,
         name = 'gtDefault';
@@ -31,12 +35,30 @@ var getTweet = function () {
         howMany = 1;
       }
 
+      if (typeof widget != 'string') {
+        console.log('%cThe widget ID number must be passed as a string.', 'color: red;');
+        return;
+      }
+
+      // Check for existing timeline object
+      if (getTweet[name] ||
+         (getTweet.tweet && name === 'gtDefault')) {
+        if (name === 'gtDefault') {
+          console.log('%cYou must pass a value for `name` if you are running `getTweet` more than once.', 'color: red;');
+        } else {
+          console.log('%cYou cannot use the same `name` more than once', 'color: red;');
+        }
+        return;
+      }
+
+      // Create timeline object
       getTweet[name] = {
         id: widget,
         callback: callbackFn,
         numTweets: howMany
       }
 
+      // Create callback
       getTweet.process[name] = function(data) {
         getTweet.process(data, name);
       }
