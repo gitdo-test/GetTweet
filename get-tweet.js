@@ -1,5 +1,5 @@
 /*
- * get-tweet.js v0.2.1 by Jimmy King
+ * get-tweet.js v0.2.2 by Jimmy King
  * Licensed under The MIT License
  * Issues and feature requests at:
  * https://github.com/jking90/get-tweet
@@ -8,11 +8,20 @@
 var getTweet = function () {
 
   return {
-    please: function(widget, callbackFn, howMany, name) {
-      if (typeof howMany === 'string') {
-        name = howMany;
+    please: function(widget, howMany, name, callbackFn) {
+
+      if (arguments.length === 2) {
+        callbackFn = howMany,
+        howMany = 1,
+        name = 'gtDefault';
+      } else if (arguments.length === 3) {
+        callbackFn = name;
+
+        if (typeof howMany === 'string') {
+          name = howMany;
+        }
       }
-      
+
       if (typeof name != 'string') {
         name = 'gtDefault';
       }

@@ -2,7 +2,7 @@
 #### A bit of jQuery for loading a user's latest tweet(s) without the Twitter API
 
 ### Usage:
-To get the tweet run `getTweet.please(widget, callback, howMany, name);`. Where `widget` is the Twitter widget ID number, `callback` is the function to execute after the tweet has been fetched, `howMany` is an optional number 1-20 (designating how many tweets to load - default is one), and `name` is an optional name for the timeline. Once that's been run, the tweet will be publicly available as an object at `getTweet.tweet`. It will look like this:
+To get the tweet run `getTweet.please(widget, howMany, name, callback);`. Where `widget` is the Twitter widget ID number, `callback` is the function to execute after the tweet has been fetched, `howMany` is an optional number 1-20 (designating how many tweets to load - default is one), and `name` is an optional name for the timeline. Once that's been run, the tweet will be publicly available as an object at `getTweet.tweet`. It will look like this:
 
 ```javascript
 getTweet.tweet = {
