@@ -7,6 +7,7 @@ To get the tweet run `getTweet.please(widget, howMany, name, callback);`. Where 
 ```javascript
 getTweet.tweet = {
   html: "string", // HTML from the tweet 
+  isRT: false, // Boolean indicates whether this is a retweet
   link: "https://twitter.com/user/statuses/[...]", // Permalink to tweet
   name: "Full Name", // Full name of user
   pic:  "https://si0.twimg.com/profile_images/[...]_normal.jpeg", // URL for user's profile picture
