@@ -81,14 +81,14 @@ var getTweet = function () {
             $userInfo = $thisTweet.children('.h-card').children('.profile');
 
         thisTweet = {
-          html: $tweetContent.html(),
-          isRT: new Boolean($thisTweet.children('.e-entry-content').children('.retweet-credit').length).valueOf(),
-          link: $thisTweet.children('.permalink').attr('href'),
-          name: $userInfo.children('.full-name').text().trim(),
-          pic:  $userInfo.children('img').attr('src'),
-          text: $tweetContent.text(),
-          time: Date.parse($thisTweet.children('.permalink').data('datetime')),
-          user: $userInfo.children('.p-nickname').text()
+          html: $tweetContent.html(), // HTML from the tweet
+          isRT: new Boolean($thisTweet.children('.e-entry-content').children('.retweet-credit').length).valueOf(), // Boolean indicates whether this is a retweet
+          link: $thisTweet.children('.permalink').attr('href'), // Permalink to tweet
+          name: $userInfo.children('.full-name').text().trim(), // Full name of user
+          pic:  $userInfo.children('img').attr('src'), // URL for user's profile picture
+          text: $tweetContent.text(), // Text from tweet (no links)
+          time: Date.parse($thisTweet.children('.permalink').data('datetime')), // Number of milliseconds since January 1, 1970, 00:00:00 UTC
+          user: $userInfo.children('.p-nickname').text() // User's screen name
         }
 
         tweets.push(thisTweet);
