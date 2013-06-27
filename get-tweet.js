@@ -1,5 +1,5 @@
 /*
- * get-tweet.js v0.2.5 by Jimmy King
+ * get-tweet.js v0.1 by Jimmy King
  * Licensed under The MIT License
  * Issues and feature requests at:
  * https://github.com/jking90/get-tweet
