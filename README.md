@@ -1,8 +1,8 @@
 # getTweet
-#### A bit of jQuery for loading a user's latest tweet(s) without the Twitter API
+#### A script for loading a user's latest tweet(s) without the Twitter API
 
 ### Usage:
-To get the tweet run `getTweet.please(widget, howMany, name, callback);`. Where `widget` is the Twitter widget ID number, `callback` is the function to execute after the tweet has been fetched, `howMany` is an optional number 1-20 (designating how many tweets to load - default is one), and `name` is an optional name for the timeline. Once that's been run, the tweet will be publicly available as an object at `getTweet.tweet`. It will look like this:
+To get the tweet run `getTweet.please(widget, howMany, name, callbackFn);`. Where `widget` is the Twitter widget ID number, `callback` is the function to execute after the tweet has been fetched, `howMany` is an optional number 1-20 (designating how many tweets to load - default is one), and `name` is an optional name for the timeline. Once that's been run, the tweet will be publicly available as an object at `getTweet.tweet`. It will look like this:
 
 ```javascript
 getTweet.tweet = {
@@ -23,6 +23,3 @@ If a string is included for `name` the `tweet`/`tweets` object will be returned 
 
 ### Help:
 You can get any twitter user's ID number by creating a [Twitter widget](https://twitter.com/settings/widgets). Type in the desired username in the configuration settings and click the blue "Create Widget" button. The widget's ID number will be in the `data-widget-id` attribute of the `<a>` in the generated code.
-
-### Dependancies:
-  - jQuery

@@ -1,5 +1,5 @@
 /*
- * get-tweet.js v0.2.2 by Jimmy King
+ * get-tweet.js v0.2.5 by Jimmy King
  * Licensed under The MIT License
  * Issues and feature requests at:
  * https://github.com/jking90/get-tweet
@@ -63,32 +63,35 @@ var getTweet = function () {
         getTweet.process(data, name);
       }
 
-      var src = '//cdn.syndication.twimg.com/widgets/timelines/' + getTweet[name].id + '?&lang=en&callback=getTweet.process.' + name + '&suppress_response_codes=true&rnd=',
-          script = '<script src="' + src + Math.random() + '"></script>';
+      // Fetch the timeline from the Twitter widget
+      var script = document.createElement('script');
+      script.src = '//cdn.syndication.twimg.com/widgets/timelines/' + widget + '?&lang=en&callback=getTweet.process.' + name + '&suppress_response_codes=true&rnd=' + Math.random();
+      document.getElementsByTagName('head')[0].appendChild(script)
 
-      if ($('script[src^="' + src + '"]').length === 0) {
-        $('head').eq(0).append(script);
-      }
     },
 
     process: function(data, name) {
-      var $fakeAPI = $('<div class="fake-api"></div>').append(data.body),
+
+      var fakeAPI = document.createElement('div'),
           tweets = [];
 
+      fakeAPI.innerHTML = data.body;
+
       for (i = 0; i < getTweet[name].numTweets; i++) {
-        var $thisTweet = $fakeAPI.children('.root').children('.stream').children('.h-feed').children('.h-entry[data-tweet-id]').eq(i),
-            $tweetContent = $thisTweet.children('.e-entry-content').children('.e-entry-title'),
-            $userInfo = $thisTweet.children('.h-card').children('.profile');
+
+        var thisTweet = fakeAPI.getElementsByClassName('tweet')[i],
+            tweetContent = thisTweet.getElementsByClassName('e-entry-title')[0],
+            userInfo = thisTweet.getElementsByClassName('u-url profile')[0];
 
         thisTweet = {
-          html: $tweetContent.html(), // HTML from the tweet
-          isRT: new Boolean($thisTweet.children('.e-entry-content').children('.retweet-credit').length).valueOf(), // Boolean indicates whether this is a retweet
-          link: $thisTweet.children('.permalink').attr('href'), // Permalink to tweet
-          name: $userInfo.children('.full-name').text().trim(), // Full name of user
-          pic:  $userInfo.children('img').attr('src'), // URL for user's profile picture
-          text: $tweetContent.text(), // Text from tweet (no links)
-          time: Date.parse($thisTweet.children('.permalink').data('datetime')), // Number of milliseconds since January 1, 1970, 00:00:00 UTC
-          user: $userInfo.children('.p-nickname').text() // User's screen name
+          html: tweetContent.innerHTML, // HTML from the tweet
+          isRT: new Boolean(thisTweet.getElementsByClassName('retweet-credit').length).valueOf(), // Boolean indicates whether this is a retweet
+          link: thisTweet.getElementsByClassName('permalink')[0].href, // Permalink to tweet
+          name: userInfo.getElementsByClassName('full-name')[0].innerText.replace(/^\s+|\s+$/g,''), // Full name of user
+          pic:  userInfo.getElementsByTagName('img')[0].src, // URL for user's profile picture
+          text: tweetContent.innerText, // Text from tweet (no links)
+          time: Date.parse(thisTweet.getElementsByClassName('permalink')[0].dataset.datetime), // Number of milliseconds since January 1, 1970, 00:00:00 UTC
+          user: userInfo.getElementsByClassName('p-nickname')[0].innerText // User's screen name
         }
 
         tweets.push(thisTweet);
@@ -113,6 +116,5 @@ var getTweet = function () {
     } else {
       getTweet[name].callback();
     }
-    
   }
 }();
