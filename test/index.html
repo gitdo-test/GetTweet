@@ -11,6 +11,11 @@
     <script src="lib/mocha/mocha.js"></script>
     <script src="lib/sinon/sinon-1.5.0.js"></script>
 
+    <script>
+      window.assert = chai.assert;
+      window.suite = mocha.suite;
+    </script>
+
     <!-- get-tweet -->
     <script src="../get-tweet.js"></script>
   </head>
@@ -18,5 +23,16 @@
   <body>
     <div id="mocha"></div>
     <div id="test"></div>
+
+    <script>
+      mocha.setup('tdd');
+    </script>
+
+    <!-- tests -->
+    <script src="get-tweet.js"></script>
+
+    <script>
+      mocha.run();
+    </script>
   </body>
 </html>

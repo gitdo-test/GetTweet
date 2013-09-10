@@ -44,10 +44,10 @@ var getTweet = (function () {
     }
 
     // Check for existing timeline object
-    if (getTweet[name] ||
-       (getTweet.tweet && name === 'gtDefault')) {
+    if (GetTweet[name] ||
+       (GetTweet.tweet && name === 'gtDefault')) {
       if (name === 'gtDefault') {
-        console.log('%cYou must pass a value for `name` if you are running `getTweet` more than once.', 'color: red;');
+        console.log('%cYou must pass a value for `name` if you are running `GetTweet` more than once.', 'color: red;');
       } else {
         console.log('%cYou cannot use the same `name` more than once', 'color: red;');
       }
@@ -55,7 +55,7 @@ var getTweet = (function () {
     }
 
     // Create timeline object
-    getTweet[name] = {
+    GetTweet[name] = {
       id: widget,
       callback: callbackFn,
       numTweets: howMany
@@ -73,19 +73,19 @@ var getTweet = (function () {
   };
 
   GetTweet.prototype.hereYouGo = function (out, name) {
-    getTweet[name].tweets = out,
-    getTweet[name].tweet  = out[0];
+    GetTweet[name].tweets = out,
+    GetTweet[name].tweet  = out[0];
 
     if (name === 'gtDefault') {
-      getTweet.tweet  = getTweet.gtDefault.tweet,
-      getTweet.tweets = getTweet.gtDefault.tweets;
+      GetTweet.tweet  = GetTweet.gtDefault.tweet,
+      GetTweet.tweets = GetTweet.gtDefault.tweets;
 
-      getTweet.gtDefault.callback();
+      GetTweet.gtDefault.callback();
 
-      getTweet.gtDefault = {},
-      delete getTweet.gtDefault;
+      GetTweet.gtDefault = {},
+      delete GetTweet.gtDefault;
     } else {
-      getTweet[name].callback();
+      GetTweet[name].callback();
     }
   };
 
@@ -95,7 +95,7 @@ var getTweet = (function () {
 
     fakeAPI.innerHTML = data.body;
 
-    for (i = 0; i < getTweet[name].numTweets; i++) {
+    for (i = 0; i < GetTweet[name].numTweets; i++) {
 
       var thisTweet = fakeAPI.getElementsByClassName('tweet')[i],
           tweetContent = thisTweet.getElementsByClassName('e-entry-title')[0],
@@ -117,4 +117,6 @@ var getTweet = (function () {
 
     this.hereYouGo(tweets, name);
   };
+
+  return GetTweet;
 }());
