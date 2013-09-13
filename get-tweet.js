@@ -5,12 +5,11 @@
  * https://github.com/jking90/get-tweet
  */
 
-var getTweet = (function () {
 
   function GetTweet (widget, howMany, name, callbackFn) {
   
-    if (!this.instanceOf(GetTweet)) {
-      return new GetTweet.apply(this, arguments);
+    if (this instanceof GetTweet === false) {
+      return new GetTweet(widget, howMany, name, callbackFn);
     }
   
     // Test arguments
@@ -72,7 +71,7 @@ var getTweet = (function () {
     document.getElementsByTagName('head')[0].appendChild(script);
   };
 
-  GetTweet.prototype.hereYouGo = function (out, name) {
+  GetTweet.hereYouGo = function (out, name) {
     GetTweet[name].tweets = out,
     GetTweet[name].tweet  = out[0];
 
@@ -119,4 +118,3 @@ var getTweet = (function () {
   };
 
   return GetTweet;
-}());

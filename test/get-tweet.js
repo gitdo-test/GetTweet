@@ -1,16 +1,18 @@
 suite('get-tweet', function () {
 
+
   test('constructor', function () {
-    var get_tweet = getTweet('1234');
-    assert.instanceOf(get_tweet, getTweet);
+    var get_tweet = GetTweet('1234', function () {
+      assert.instanceOf(get_tweet, GetTweet);
+    });
   });
 
   test('hereYouGo', function () {
-    assert.isTrue(true);
+    assert.isTrue(false);
   });
 
   test('process', function () {
-    assert.isTrue(true);
+    assert.isTrue(false);
   });
 
 });
