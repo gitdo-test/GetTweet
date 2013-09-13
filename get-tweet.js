@@ -6,115 +6,99 @@
  */
 
 
-  function GetTweet (widget, howMany, name, callbackFn) {
-  
-    if (this instanceof GetTweet === false) {
-      return new GetTweet(widget, howMany, name, callbackFn);
-    }
-  
-    // Test arguments
-    if (arguments.length < 2) {
-      console.log('%cYou must pass a value for `widget` and `callbackFn`.', 'color: red;');
-      return;
-    } else if (arguments.length === 2) {
-      callbackFn = howMany,
-      howMany = 1,
-      name = 'gtDefault';
-    } else if (arguments.length === 3) {
-      callbackFn = name;
+function GetTweet (usrOpts) {
+  if (this instanceof GetTweet === false) {
+    return new GetTweet(usrOpts);
+  }
 
-      if (typeof howMany === 'string') {
-        name = howMany;
-      }
-    }
+  this.initVars(usrOpts);
+  this.createProcess();
+  this.injectScript();
+}
 
-    if (typeof name != 'string') {
-      name = 'gtDefault';
-    }
+GetTweet.noInstances = 0;
+GetTweet.instances = {};
 
-    if ((typeof howMany != 'number') ||
-       (howMany < 2) || (howMany > 20)) {
-      howMany = 1;
-    }
+GetTweet.process = function (data, instance) {
+  var fakeAPI = document.createElement('div');
+  instance.tweets = [];
 
-    if (typeof widget != 'string') {
-      console.log('%cThe widget ID number must be passed as a string.', 'color: red;');
-      return;
-    }
+  fakeAPI.innerHTML = data.body;
 
-    // Check for existing timeline object
-    if (GetTweet[name] ||
-       (GetTweet.tweet && name === 'gtDefault')) {
-      if (name === 'gtDefault') {
-        console.log('%cYou must pass a value for `name` if you are running `GetTweet` more than once.', 'color: red;');
-      } else {
-        console.log('%cYou cannot use the same `name` more than once', 'color: red;');
-      }
-      return;
+  for (i = 0; i < instance.options.howMany; i++) {
+
+    var thisTweet = fakeAPI.getElementsByClassName('tweet')[i],
+        tweetContent = thisTweet.getElementsByClassName('e-entry-title')[0],
+        userInfo = thisTweet.getElementsByClassName('u-url profile')[0];
+
+    thisTweet = {
+      html: tweetContent.innerHTML, // HTML from the tweet
+      isRT: new Boolean(thisTweet.getElementsByClassName('retweet-credit').length).valueOf(), // Boolean indicates whether this is a retweet
+      link: thisTweet.getElementsByClassName('permalink')[0].href, // Permalink to tweet
+      name: userInfo.getElementsByClassName('full-name')[0].innerText.replace(/^\s+|\s+$/g,''), // Full name of user
+      pic:  userInfo.getElementsByTagName('img')[0].src, // URL for user's profile picture
+      text: tweetContent.innerText, // Text from tweet (no links)
+      time: Date.parse(thisTweet.getElementsByClassName('permalink')[0].dataset.datetime), // Number of milliseconds since January 1, 1970, 00:00:00 UTC
+      user: userInfo.getElementsByClassName('p-nickname')[0].innerText // User's screen name
     }
 
-    // Create timeline object
-    GetTweet[name] = {
-      id: widget,
-      callback: callbackFn,
-      numTweets: howMany
-    }
+    instance.tweets.push(thisTweet);
+  }
 
-    // Create callback
-    GetTweet.process[name] = function(data) {
-      GetTweet.process(data, name);
-    }
+  instance.hereYouGo();
+};
 
-    // Fetch the timeline from the Twitter widget
-    var script = document.createElement('script');
-    script.src = '//cdn.syndication.twimg.com/widgets/timelines/' + widget + '?&lang=en&callback=getTweet.process.' + name + '&suppress_response_codes=true&rnd=' + Math.random();
-    document.getElementsByTagName('head')[0].appendChild(script);
+GetTweet.prototype.initVars = function(usrOpts) {
+  var defaults = {
+    callbackFn: null,
+    howMany: 1,
+    widget: null
   };
 
-  GetTweet.hereYouGo = function (out, name) {
-    GetTweet[name].tweets = out,
-    GetTweet[name].tweet  = out[0];
+  this.options = {};
 
-    if (name === 'gtDefault') {
-      GetTweet.tweet  = GetTweet.gtDefault.tweet,
-      GetTweet.tweets = GetTweet.gtDefault.tweets;
-
-      GetTweet.gtDefault.callback();
-
-      GetTweet.gtDefault = {},
-      delete GetTweet.gtDefault;
+  for (var key in defaults) {
+    if (usrOpts.hasOwnProperty(key)) {
+      this.options[key] = usrOpts[key];
     } else {
-      GetTweet[name].callback();
+      this.options[key] = defaults[key];
     }
+  }
+
+  // Test arguments
+  if (typeof this.options.callbackFn !== 'function') {
+    console.log('%cYour callback must be a function', 'color: red;');
+    return;
+  } 
+
+  if ((typeof this.options.howMany !== 'number') ||
+      (this.options.howMany < 2) || (this.options.howMany > 20)) {
+    this.options.howMany = defaults.howMany;
+  }
+
+  if (typeof this.options.widget !== 'string') {
+    console.log('%cThe widget ID number must be passed as a string.', 'color: red;');
+    return;
+  }
+};
+
+GetTweet.prototype.createProcess = function () {
+  // Create callback
+  this.id = 'id_' + GetTweet.noInstances++;
+  var self = this;
+  GetTweet.instances[this.id] = function(data) {
+    GetTweet.process(data, self);
   };
+};
 
-  GetTweet.process = function (data, name) {
-    var fakeAPI = document.createElement('div'),
-        tweets = [];
+GetTweet.prototype.injectScript = function () {
+  // Fetch the timeline from the Twitter widget
+  var script = document.createElement('script');
+  script.src = '//cdn.syndication.twimg.com/widgets/timelines/' + this.options.widget + '?&lang=en&callback=GetTweet.instances.' + this.id + '&suppress_response_codes=true&rnd=' + Math.random();
+  document.getElementsByTagName('head')[0].appendChild(script);
+};
 
-    fakeAPI.innerHTML = data.body;
-
-    for (i = 0; i < GetTweet[name].numTweets; i++) {
-
-      var thisTweet = fakeAPI.getElementsByClassName('tweet')[i],
-          tweetContent = thisTweet.getElementsByClassName('e-entry-title')[0],
-          userInfo = thisTweet.getElementsByClassName('u-url profile')[0];
-
-      thisTweet = {
-        html: tweetContent.innerHTML, // HTML from the tweet
-        isRT: new Boolean(thisTweet.getElementsByClassName('retweet-credit').length).valueOf(), // Boolean indicates whether this is a retweet
-        link: thisTweet.getElementsByClassName('permalink')[0].href, // Permalink to tweet
-        name: userInfo.getElementsByClassName('full-name')[0].innerText.replace(/^\s+|\s+$/g,''), // Full name of user
-        pic:  userInfo.getElementsByTagName('img')[0].src, // URL for user's profile picture
-        text: tweetContent.innerText, // Text from tweet (no links)
-        time: Date.parse(thisTweet.getElementsByClassName('permalink')[0].dataset.datetime), // Number of milliseconds since January 1, 1970, 00:00:00 UTC
-        user: userInfo.getElementsByClassName('p-nickname')[0].innerText // User's screen name
-      }
-
-      tweets.push(thisTweet);
-    }
-
-    this.hereYouGo(tweets, name);
-  };
-
-  return GetTweet;
+GetTweet.prototype.hereYouGo = function () {
+  this.tweet = this.tweets[0];
+  this.options.callbackFn(this);
+};

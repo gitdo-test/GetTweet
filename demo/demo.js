@@ -1,7 +1,10 @@
 $(function() {
 
-  getTweet('347876295008460801', updateExample);
+  getTweet = new GetTweet({widget:'347876295008460801', callbackFn:updateExample});
 
+  function logTest () {
+    console.log('test');
+  }
   function updateExample() {
     var tweet = getTweet.tweet;
 
