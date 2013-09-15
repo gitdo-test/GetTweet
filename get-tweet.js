@@ -19,6 +19,7 @@ function GetTweet (usrOpts) {
 GetTweet.noInstances = 0;
 GetTweet.instances = {};
 
+// Parse tweets from widget
 GetTweet.process = function (data, instance) {
   var fakeAPI = document.createElement('div');
   instance.tweets = [];
@@ -82,8 +83,8 @@ GetTweet.prototype.initVars = function(usrOpts) {
   }
 };
 
+// Create callback for Twitter
 GetTweet.prototype.createProcess = function () {
-  // Create callback
   this.id = 'id_' + GetTweet.noInstances++;
   var self = this;
   GetTweet.instances[this.id] = function(data) {
@@ -91,13 +92,14 @@ GetTweet.prototype.createProcess = function () {
   };
 };
 
+// Fetch the timeline from the Twitter widget
 GetTweet.prototype.injectScript = function () {
-  // Fetch the timeline from the Twitter widget
   var script = document.createElement('script');
   script.src = '//cdn.syndication.twimg.com/widgets/timelines/' + this.options.widget + '?&lang=en&callback=GetTweet.instances.' + this.id + '&suppress_response_codes=true&rnd=' + Math.random();
   document.getElementsByTagName('head')[0].appendChild(script);
 };
 
+// Deliver tweets & trigger callback
 GetTweet.prototype.hereYouGo = function () {
   this.tweet = this.tweets[0];
   this.options.callbackFn(this);
