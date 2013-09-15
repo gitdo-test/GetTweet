@@ -56,7 +56,13 @@ suite('get-tweet', function () {
   });
 
   test('hereYouGo', function () {
-    assert.isTrue(false);
+    var opts = {
+      widget: widgetID,
+      callbackFn: function () {
+        assert.strictEqual(get_tweet.tweets[0], get_tweet.tweet); 
+      }
+    },
+    get_tweet = GetTweet(opts);
   });
 
   test('process', function () {
