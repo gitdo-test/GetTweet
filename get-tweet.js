@@ -26,7 +26,7 @@ GetTweet.process = function (data, instance) {
 
   fakeAPI.innerHTML = data.body;
 
-  for (i = 0; i < instance.options.howMany; i++) {
+  for (var i = 0; i < instance.options.howMany; i++) {
 
     var thisTweet = fakeAPI.getElementsByClassName('tweet')[i],
         tweetContent = thisTweet.getElementsByClassName('e-entry-title')[0],
@@ -95,6 +95,7 @@ GetTweet.prototype.createProcess = function () {
 // Fetch the timeline from the Twitter widget
 GetTweet.prototype.injectScript = function () {
   var script = document.createElement('script');
+  script.id = 'get-tweet-' + this.id;
   script.src = '//cdn.syndication.twimg.com/widgets/timelines/' + this.options.widget + '?&lang=en&callback=GetTweet.instances.' + this.id + '&suppress_response_codes=true&rnd=' + Math.random();
   document.getElementsByTagName('head')[0].appendChild(script);
 };
