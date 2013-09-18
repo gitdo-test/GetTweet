@@ -32,9 +32,9 @@ GetTweet.process = function (data, instance) {
         tweetContent = thisTweet.getElementsByClassName('e-entry-title')[0],
         userInfo = thisTweet.getElementsByClassName('u-url profile')[0];
 
-    thisTweet = {
+    var thisTweetObj = {
       html: tweetContent.innerHTML, // HTML from the tweet
-      isRT: new Boolean(thisTweet.getElementsByClassName('retweet-credit').length).valueOf(), // Boolean indicates whether this is a retweet
+      isRT: !!thisTweet.getElementsByClassName('retweet-credit').length, // Boolean indicates whether this is a retweet
       link: thisTweet.getElementsByClassName('permalink')[0].href, // Permalink to tweet
       name: userInfo.getElementsByClassName('full-name')[0].innerText.replace(/^\s+|\s+$/g,''), // Full name of user
       pic:  userInfo.getElementsByTagName('img')[0].src, // URL for user's profile picture
@@ -43,7 +43,7 @@ GetTweet.process = function (data, instance) {
       user: userInfo.getElementsByClassName('p-nickname')[0].innerText // User's screen name
     }
 
-    instance.tweets.push(thisTweet);
+    instance.tweets.push(thisTweetObj);
   }
 
   instance.hereYouGo();
@@ -95,9 +95,10 @@ GetTweet.prototype.createProcess = function () {
 // Fetch the timeline from the Twitter widget
 GetTweet.prototype.injectScript = function () {
   var script = document.createElement('script');
-  script.id = 'get-tweet-' + this.id;
   script.src = '//cdn.syndication.twimg.com/widgets/timelines/' + this.options.widget + '?&lang=en&callback=GetTweet.instances.' + this.id + '&suppress_response_codes=true&rnd=' + Math.random();
   document.getElementsByTagName('head')[0].appendChild(script);
+
+  this.scriptElem = script;
 };
 
 // Deliver tweets & trigger callback
