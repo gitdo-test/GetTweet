@@ -1,4 +1,4 @@
-# getTweet
+# GetTweet
 #### A script for loading a user's latest tweet(s) without the Twitter API
 
 ### Usage:
