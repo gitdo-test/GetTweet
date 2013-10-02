@@ -33,14 +33,22 @@ GetTweet.process = function (data, instance) {
         userInfo = thisTweet.getElementsByClassName('u-url profile')[0];
 
     var thisTweetObj = {
-      html: tweetContent.innerHTML, // HTML from the tweet
-      isRT: !!thisTweet.getElementsByClassName('retweet-credit').length, // Boolean indicates whether this is a retweet
-      link: thisTweet.getElementsByClassName('permalink')[0].href, // Permalink to tweet
-      name: userInfo.getElementsByClassName('full-name')[0].innerText.replace(/^\s+|\s+$/g, ''), // Full name of user
-      pic:  userInfo.getElementsByTagName('img')[0].src, // URL for user's profile picture
-      text: tweetContent.innerText, // Text from tweet (no links)
-      time: Date.parse(thisTweet.getElementsByClassName('permalink')[0].dataset.datetime), // Number of milliseconds since January 1, 1970, 00:00:00 UTC
-      user: userInfo.getElementsByClassName('p-nickname')[0].innerText // User's screen name
+      html: tweetContent.innerHTML,
+            // HTML from the tweet
+      isRT: !!thisTweet.getElementsByClassName('retweet-credit').length,
+            // Boolean indicates whether this is a retweet
+      link: thisTweet.getElementsByClassName('permalink')[0].href,
+            // Permalink to tweet
+      name: userInfo.getElementsByClassName('full-name')[0].innerText.replace(/^\s+|\s+$/g, ''),
+            // Full name of user
+      pic:  userInfo.getElementsByTagName('img')[0].src,
+            // URL for user's profile picture
+      text: tweetContent.innerText,
+            // Text from tweet (no links)
+      time: Date.parse(thisTweet.getElementsByClassName('permalink')[0].dataset.datetime),
+            // Number of milliseconds since January 1, 1970, 00:00:00 UTC
+      user: userInfo.getElementsByClassName('p-nickname')[0].innerText
+            // User's screen name
     };
 
     instance.tweets.push(thisTweetObj);
