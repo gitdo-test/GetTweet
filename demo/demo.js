@@ -1,14 +1,15 @@
-$(function() {
+/* jshint quotmark: false */
+$(function () {
 
-  getTweet = new GetTweet({widget:'347876295008460801', callbackFn:updateExample});
+  var getTweet = new GetTweet({
+    widget: '347876295008460801',
+    callbackFn: updateExample
+  });
 
-  function logTest () {
-    console.log('test');
-  }
   function updateExample() {
     var tweet = getTweet.tweet;
 
-    if(tweet.html.indexOf('<') !== -1) {
+    if (tweet.html.indexOf('<') !== -1) {
       tweet.html = tweet.html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
@@ -23,7 +24,7 @@ $(function() {
     tweet.name = "'" + tweet.name + "'";
     $('.string').eq(2).empty().append(tweet.name);
 
-    tweet.pic = "'" + tweet.pic + "'"
+    tweet.pic = "'" + tweet.pic + "'";
     $('.string').eq(3).empty().append(tweet.pic);
 
     tweet.text = "'" + tweet.text + "'";

@@ -6,7 +6,7 @@
  */
 
 
-function GetTweet (usrOpts) {
+function GetTweet(usrOpts) {
   if (this instanceof GetTweet === false) {
     return new GetTweet(usrOpts);
   }
@@ -36,12 +36,12 @@ GetTweet.process = function (data, instance) {
       html: tweetContent.innerHTML, // HTML from the tweet
       isRT: !!thisTweet.getElementsByClassName('retweet-credit').length, // Boolean indicates whether this is a retweet
       link: thisTweet.getElementsByClassName('permalink')[0].href, // Permalink to tweet
-      name: userInfo.getElementsByClassName('full-name')[0].innerText.replace(/^\s+|\s+$/g,''), // Full name of user
+      name: userInfo.getElementsByClassName('full-name')[0].innerText.replace(/^\s+|\s+$/g, ''), // Full name of user
       pic:  userInfo.getElementsByTagName('img')[0].src, // URL for user's profile picture
       text: tweetContent.innerText, // Text from tweet (no links)
       time: Date.parse(thisTweet.getElementsByClassName('permalink')[0].dataset.datetime), // Number of milliseconds since January 1, 1970, 00:00:00 UTC
       user: userInfo.getElementsByClassName('p-nickname')[0].innerText // User's screen name
-    }
+    };
 
     instance.tweets.push(thisTweetObj);
   }
@@ -49,7 +49,7 @@ GetTweet.process = function (data, instance) {
   instance.hereYouGo();
 };
 
-GetTweet.prototype.initVars = function(usrOpts) {
+GetTweet.prototype.initVars = function (usrOpts) {
   var defaults = {
     callbackFn: null,
     howMany: 1,
@@ -70,7 +70,7 @@ GetTweet.prototype.initVars = function(usrOpts) {
   if (typeof this.options.callbackFn !== 'function') {
     console.log('%cYour callback must be a function', 'color: red;');
     return;
-  } 
+  }
 
   if ((typeof this.options.howMany !== 'number') ||
       (this.options.howMany < 2) || (this.options.howMany > 20)) {
@@ -87,7 +87,7 @@ GetTweet.prototype.initVars = function(usrOpts) {
 GetTweet.prototype.createProcess = function () {
   this.id = 'id_' + GetTweet.noInstances++;
   var self = this;
-  GetTweet.instances[this.id] = function(data) {
+  GetTweet.instances[this.id] = function (data) {
     GetTweet.process(data, self);
   };
 };
@@ -95,7 +95,7 @@ GetTweet.prototype.createProcess = function () {
 // Fetch the timeline from the Twitter widget
 GetTweet.prototype.injectScript = function () {
   var script = document.createElement('script');
-  script.src = '//cdn.syndication.twimg.com/widgets/timelines/' + this.options.widget + '?&lang=en&callback=GetTweet.instances.' + this.id + '&suppress_response_codes=true&rnd=' + Math.random();
+  script.src = 'http://cdn.syndication.twimg.com/widgets/timelines/' + this.options.widget + '?&lang=en&callback=GetTweet.instances.' + this.id + '&suppress_response_codes=true&rnd=' + Math.random();
   document.getElementsByTagName('head')[0].appendChild(script);
 
   this.scriptElem = script;
