@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "grunt-mocha": "~0.2.3",
+    "grunt-mocha": "~0.4.1",
     "grunt": "~0.4.1",
     "mocha": "~1.12.1",
     "chai": "~1.7.2",
