@@ -1,4 +1,7 @@
 # GetTweet
+[![Dependency Status](https://gemnasium.com/jking90/GetTweet.png)](https://gemnasium.com/jking90/GetTweet)
+[![Build Status](https://travis-ci.org/jking90/GetTweet.png?branch=master)](https://travis-ci.org/jking90/GetTweet)
+
 #### A script for loading a user's latest tweet(s) without the Twitter API
 
 ### Usage:
