@@ -16,7 +16,7 @@ $(function () {
     tweet.html = "'" + tweet.html + "'";
     $('.string').eq(0).empty().append(tweet.html);
 
-    $('.boolean').empty().append(tweet.isRT.toString());
+    $('.literal').empty().append(tweet.isRT.toString());
 
     tweet.link = "'" + tweet.link + "'";
     $('.string').eq(1).empty().append(tweet.link);
