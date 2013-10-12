@@ -54,6 +54,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-node-version');
 
-  grunt.registerTask('run', ['sass', 'connect', 'watch']);
+  grunt.registerTask('run', ['connect', 'watch']);
   grunt.registerTask('test', ['jshint', 'mocha']);
 };
