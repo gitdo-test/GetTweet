@@ -2,8 +2,8 @@
   "dependencies": {
     "grunt-mocha": "~0.4.1",
     "grunt": "~0.4.1",
-    "mocha": "~1.12.1",
-    "chai": "~1.7.2",
+    "mocha": "~1.13",
+    "chai": "~1.8.1",
     "grunt-node-version": "~1.0.0",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-connect": "~0.5.0",
