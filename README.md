@@ -1,6 +1,7 @@
 # GetTweet
 [![Dependency Status](https://gemnasium.com/jking90/GetTweet.png)](https://gemnasium.com/jking90/GetTweet)
 [![Build Status](https://travis-ci.org/jking90/GetTweet.png?branch=master)](https://travis-ci.org/jking90/GetTweet)
+[![Gittip donate button](http://img.shields.io/gittip/jking90.png)](https://www.gittip.com/jking90/ "Donate weekly to this project using Gittip")
 
 #### A script for loading a user's latest tweet(s) without the Twitter API
 
