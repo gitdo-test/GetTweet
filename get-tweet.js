@@ -33,7 +33,7 @@ GetTweet.process = function (data, instance) {
         userInfo = thisTweet.getElementsByClassName('u-url profile')[0];
 
     var thisTweetObj = {
-      /* Do more things:
+      /* @todo: Do more things:
           - this thing
           - that thing
       */
